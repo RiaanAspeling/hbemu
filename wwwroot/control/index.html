@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Instructor Control</title>
+    <link rel="stylesheet" href="control.css">
+</head>
+<body>
+    <!-- Create/Join Screen -->
+    <div id="setupScreen" class="setup-screen">
+        <div class="setup-box">
+            <h1>Instructor Control</h1>
+            <button id="createBtn" onclick="createSession()">Create New Session</button>
+            <p class="divider">or join existing</p>
+            <input type="text" id="joinCodeInput" maxlength="6" placeholder="Code" autocomplete="off">
+            <button id="joinBtn" onclick="joinExisting()">Join Session</button>
+            <p id="setupError" class="error"></p>
+        </div>
+    </div>
+
+    <!-- Control Panel -->
+    <div id="controlPanel" class="control-panel" style="display:none;">
+        <div class="header">
+            <h2>Session: <span id="sessionCodeDisplay">---</span></h2>
+            <p class="hint">Share this code with the student monitor</p>
+        </div>
+
+        <div class="controls-scroll">
+            <!-- Heart Rate -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>Heart Rate</label>
+                    <span class="control-value" id="hrDisplay">72 bpm</span>
+                </div>
+                <input type="range" id="hrSlider" min="20" max="220" value="72"
+                    oninput="updateSlider('hr')">
+                <div class="preset-row">
+                    <button onclick="setHR(40)">Brady 40</button>
+                    <button onclick="setHR(72)">Normal 72</button>
+                    <button onclick="setHR(110)">Tachy 110</button>
+                    <button onclick="setHR(150)">SVT 150</button>
+                </div>
+            </div>
+
+            <!-- ECG Rhythm -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>ECG Rhythm</label>
+                    <span class="control-value" id="rhythmDisplay">NSR</span>
+                </div>
+                <div class="rhythm-grid">
+                    <button class="rhythm-btn active" data-rhythm="nsr" onclick="setRhythm('nsr')">NSR</button>
+                    <button class="rhythm-btn" data-rhythm="sinus_tachy" onclick="setRhythm('sinus_tachy')">Sinus Tachy</button>
+                    <button class="rhythm-btn" data-rhythm="sinus_brady" onclick="setRhythm('sinus_brady')">Sinus Brady</button>
+                    <button class="rhythm-btn" data-rhythm="afib" onclick="setRhythm('afib')">A-Fib</button>
+                    <button class="rhythm-btn danger" data-rhythm="vtach" onclick="setRhythm('vtach')">V-Tach</button>
+                    <button class="rhythm-btn danger" data-rhythm="vfib" onclick="setRhythm('vfib')">V-Fib</button>
+                    <button class="rhythm-btn danger" data-rhythm="asystole" onclick="setRhythm('asystole')">Asystole</button>
+                </div>
+            </div>
+
+            <!-- SpO2 -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>SpO2</label>
+                    <span class="control-value" id="spo2Display">98%</span>
+                </div>
+                <input type="range" id="spo2Slider" min="50" max="100" value="98"
+                    oninput="updateSlider('spo2')">
+                <div class="preset-row">
+                    <button onclick="setSpO2(70)">Critical 70</button>
+                    <button onclick="setSpO2(88)">Low 88</button>
+                    <button onclick="setSpO2(94)">Borderline 94</button>
+                    <button onclick="setSpO2(98)">Normal 98</button>
+                </div>
+            </div>
+
+            <!-- Blood Pressure -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>Blood Pressure</label>
+                    <span class="control-value" id="bpDisplay">120/80</span>
+                </div>
+                <div class="dual-slider">
+                    <label class="sub-label">Systolic</label>
+                    <input type="range" id="sysSlider" min="50" max="250" value="120"
+                        oninput="updateSlider('bp')">
+                    <label class="sub-label">Diastolic</label>
+                    <input type="range" id="diaSlider" min="20" max="150" value="80"
+                        oninput="updateSlider('bp')">
+                </div>
+                <div class="preset-row">
+                    <button onclick="setBP(80,50)">Hypotension</button>
+                    <button onclick="setBP(120,80)">Normal</button>
+                    <button onclick="setBP(180,110)">Hypertension</button>
+                    <button onclick="setBP(60,40)">Shock</button>
+                </div>
+            </div>
+
+            <!-- Respiratory Rate -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>Respiratory Rate</label>
+                    <span class="control-value" id="rrDisplay">16 /min</span>
+                </div>
+                <input type="range" id="rrSlider" min="0" max="40" value="16"
+                    oninput="updateSlider('rr')">
+                <div class="preset-row">
+                    <button onclick="setRR(0)">Apnea</button>
+                    <button onclick="setRR(8)">Low 8</button>
+                    <button onclick="setRR(16)">Normal 16</button>
+                    <button onclick="setRR(32)">Tachypnea 32</button>
+                </div>
+            </div>
+
+            <!-- EtCO2 -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>EtCO2</label>
+                    <span class="control-value" id="etco2Display">38 mmHg</span>
+                </div>
+                <input type="range" id="etco2Slider" min="0" max="80" value="38"
+                    oninput="updateSlider('etco2')">
+                <div class="preset-row">
+                    <button onclick="setEtCO2(0)">None</button>
+                    <button onclick="setEtCO2(20)">Low 20</button>
+                    <button onclick="setEtCO2(38)">Normal 38</button>
+                    <button onclick="setEtCO2(60)">High 60</button>
+                </div>
+            </div>
+
+            <!-- Temperature -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label>Temperature</label>
+                    <span class="control-value" id="tempDisplay">36.8 &deg;C</span>
+                </div>
+                <input type="range" id="tempSlider" min="330" max="420" value="368"
+                    oninput="updateSlider('temp')">
+                <div class="preset-row">
+                    <button onclick="setTemp(34.0)">Hypothermia</button>
+                    <button onclick="setTemp(36.8)">Normal</button>
+                    <button onclick="setTemp(38.5)">Fever</button>
+                    <button onclick="setTemp(40.5)">High Fever</button>
+                </div>
+            </div>
+
+            <!-- Quick Scenarios -->
+            <div class="control-group scenarios">
+                <div class="control-header">
+                    <label>Quick Scenarios</label>
+                </div>
+                <div class="scenario-grid">
+                    <button class="scenario-btn" onclick="scenario('healthy')">Healthy Adult</button>
+                    <button class="scenario-btn" onclick="scenario('sepsis')">Sepsis</button>
+                    <button class="scenario-btn" onclick="scenario('mi')">Acute MI</button>
+                    <button class="scenario-btn danger" onclick="scenario('cardiac_arrest')">Cardiac Arrest</button>
+                    <button class="scenario-btn" onclick="scenario('respiratory_failure')">Resp Failure</button>
+                    <button class="scenario-btn" onclick="scenario('hemorrhage')">Hemorrhage</button>
+                    <button class="scenario-btn" onclick="scenario('anaphylaxis')">Anaphylaxis</button>
+                    <button class="scenario-btn" onclick="scenario('pe')">Pulmonary Embolism</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="control.js"></script>
+</body>
+</html>

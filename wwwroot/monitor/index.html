@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Monitor</title>
+    <link rel="stylesheet" href="monitor.css">
+</head>
+<body>
+    <!-- Join Screen -->
+    <div id="joinScreen" class="join-screen">
+        <div class="join-box">
+            <h1>Patient Monitor</h1>
+            <p>Enter session code to connect</p>
+            <input type="text" id="sessionCodeInput" maxlength="6" placeholder="ABC123" autocomplete="off">
+            <button id="joinBtn" onclick="joinSession()">Connect</button>
+            <p id="joinError" class="error"></p>
+        </div>
+    </div>
+
+    <!-- Monitor Screen -->
+    <div id="monitorScreen" class="monitor-screen" style="display:none;">
+        <div class="monitor-grid">
+            <!-- Waveform area -->
+            <div class="waveform-panel">
+                <div class="waveform-row">
+                    <div class="waveform-label ecg-color">II</div>
+                    <canvas id="ecgCanvas" class="waveform-canvas"></canvas>
+                    <div class="numeric-box ecg-color">
+                        <div class="numeric-label">HR</div>
+                        <div class="numeric-value" id="hrValue">72</div>
+                        <div class="numeric-unit">bpm</div>
+                    </div>
+                </div>
+                <div class="waveform-row">
+                    <div class="waveform-label spo2-color">SpO2</div>
+                    <canvas id="spo2Canvas" class="waveform-canvas"></canvas>
+                    <div class="numeric-box spo2-color">
+                        <div class="numeric-label">SpO2</div>
+                        <div class="numeric-value" id="spo2Value">98</div>
+                        <div class="numeric-unit">%</div>
+                    </div>
+                </div>
+                <div class="waveform-row">
+                    <div class="waveform-label abp-color">ABP</div>
+                    <canvas id="abpCanvas" class="waveform-canvas"></canvas>
+                    <div class="numeric-box abp-color">
+                        <div class="numeric-label">ABP</div>
+                        <div class="numeric-value" id="bpValue">120/80</div>
+                        <div class="numeric-unit">mmHg</div>
+                    </div>
+                </div>
+                <div class="waveform-row">
+                    <div class="waveform-label capno-color">CO2</div>
+                    <canvas id="capnoCanvas" class="waveform-canvas"></canvas>
+                    <div class="numeric-box capno-color">
+                        <div class="numeric-label">EtCO2</div>
+                        <div class="numeric-value" id="etco2Value">38</div>
+                        <div class="numeric-unit">mmHg</div>
+                    </div>
+                </div>
+                <div class="waveform-row">
+                    <div class="waveform-label resp-color">Resp</div>
+                    <canvas id="respCanvas" class="waveform-canvas"></canvas>
+                    <div class="numeric-box resp-color">
+                        <div class="numeric-label">RR</div>
+                        <div class="numeric-value" id="rrValue">16</div>
+                        <div class="numeric-unit">/min</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="bottom-bar">
+                <div class="temp-display">
+                    <span class="temp-label">Temp</span>
+                    <span class="temp-value" id="tempValue">36.8</span>
+                    <span class="temp-unit">&deg;C</span>
+                </div>
+                <div class="session-info">
+                    Session: <span id="sessionCode">---</span>
+                </div>
+                <div class="rhythm-display">
+                    <span id="rhythmLabel">Normal Sinus Rhythm</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alarm overlay -->
+        <div id="alarmOverlay" class="alarm-overlay" style="display:none;">
+            <div class="alarm-text" id="alarmText"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="../js/waveforms.js"></script>
+    <script src="monitor.js"></script>
+</body>
+</html>
