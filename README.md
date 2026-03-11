@@ -16,13 +16,16 @@ A web-based patient vital signs monitor simulator for medical and nursing educat
 ## Preview
 
 ![Control Panel](images/control.png)
-Fig 1: Control panel
+**Fig 1:** Control panel
+
 
 ![Student Monitor](images/monitor.png)
-Fig 2: Student monitor
+**Fig 2:** Student monitor
+
 
 ![Simulated V-Tach](images/alarm.png)
-Fig 3: simulated B-Tach alarm
+**Fig 3:** simulated V-Tach alarm
+
 
 ## Requirements
 
