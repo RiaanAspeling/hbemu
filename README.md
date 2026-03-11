@@ -13,6 +13,17 @@ A web-based patient vital signs monitor simulator for medical and nursing educat
 - **Audio** - heart beep on each QRS complex, alarm tones for critical rhythms
 - **Responsive control panel** - optimized for phone, tablet, and desktop
 
+## Preview
+
+![Control Panel](images/control.png)
+Fig 1: Control panel
+
+![Student Monitor](images/monitor.png)
+Fig 2: Student monitor
+
+![Simulated V-Tach](images/monitor.png)
+Fig 3: simulated B-Tach alarm
+
 ## Requirements
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
