@@ -21,7 +21,7 @@ Fig 1: Control panel
 ![Student Monitor](images/monitor.png)
 Fig 2: Student monitor
 
-![Simulated V-Tach](images/monitor.png)
+![Simulated V-Tach](images/alarm.png)
 Fig 3: simulated B-Tach alarm
 
 ## Requirements
